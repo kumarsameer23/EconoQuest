@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EconoQuest - Quiz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7VFMDvrd-EU01aHGgCEOawsyLLZTOOnE",
+      authDomain: "econoquest-9ee60.firebaseapp.com",
+      databaseURL: "https://econoquest-9ee60-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "econoquest-9ee60",
+      storageBucket: "econoquest-9ee60.appspot.com",
+      messagingSenderId: "430501437674",
+      appId: "1:430501437674:web:f43a957c0117df3d1af793"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body class="bg-gradient-to-r from-black via-blue-700 to-cyan-500 min-h-screen text-white font-sans">
+  <div class="max-w-3xl mx-auto py-10 px-4">
+    <div class="mb-6">
+      <h1 class="text-4xl font-bold text-center">EconoQuest Challenge</h1>
+      <div class="mt-4 flex justify-between items-center">
+        <p id="user-name" class="text-lg"></p>
+        <p id="timer" class="text-xl font-semibold">20s</p>
+      </div>
+      <div class="w-full bg-gray-600 rounded-full h-3 mt-2">
+        <div id="progress-bar" class="bg-green-400 h-3 rounded-full" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <div id="quiz-screen" class="bg-black/30 p-6 rounded-xl shadow-lg">
+      <h2 id="question-text" class="text-2xl font-semibold mb-4">Loading...</h2>
+      <ul id="options-list" class="space-y-3"></ul>
+      <p id="hint" class="text-sm mt-4 italic text-yellow-200"></p>
+      <button id="next-btn" disabled class="mt-6 bg-green-600 px-6 py-2 rounded-xl hover:bg-green-700 transition-all">
+        Next
+      </button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (document.getElementById("question-text")) {
+        document.getElementById("user-name").textContent = `👤 ${localStorage.getItem("username")}`;
+        showQuestion();
+      }
+
+      const nextBtn = document.getElementById("next-btn");
+      if (nextBtn) {
+        nextBtn.addEventListener("click", async () => {
+          await nextQuestion();
+        });
+      }
+    });
+  </script>
+</body>
+</html>

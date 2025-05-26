@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EconoQuest - Financial Literacy Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyC7VFMDvrd-EU01aHGgCEOawsyLLZTOOnE",
+        authDomain: "econoquest-9ee60.firebaseapp.com",
+        databaseURL:
+          "https://econoquest-9ee60-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "econoquest-9ee60",
+        storageBucket: "econoquest-9ee60.appspot.com",
+        messagingSenderId: "430501437674",
+        appId: "1:430501437674:web:f43a957c0117df3d1af793",
+      };
+      firebase.initializeApp(firebaseConfig);
+    </script>
+  </head>
+  <body
+    class="bg-gradient-to-br from-gray-900 via-slate-800 to-indigo-900 min-h-screen text-white font-sans"
+  >
+    <!-- Google Sign-In Overlay -->
+    <div
+      id="login-overlay"
+      class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50"
+    >
+      <div
+        class="bg-white rounded-xl shadow-2xl p-10 max-w-md w-full text-center"
+      >
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">
+          Welcome to EconoQuest
+        </h2>
+        <p class="mb-4 text-gray-600">
+          Sign in with your Google account to begin the quiz.
+        </p>
+        <button
+          onclick="signInWithGoogle()"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-all shadow-md"
+        >
+          Sign in with Google
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content (Only visible after login) -->
+    <div class="container mx-auto px-4 py-10 max-w-5xl">
+      <h1
+        class="text-center text-5xl font-extrabold mb-8 text-cyan-400 drop-shadow-lg"
+      >
+        Welcome to EconoQuest
+      </h1>
+
+      <div class="bg-slate-800 rounded-xl p-8 shadow-lg">
+        <h2 class="text-3xl font-bold text-cyan-300 mb-2">Objective</h2>
+        <p class="text-lg text-gray-200 mb-6">
+          <strong>EconoQuest</strong> is an interactive quiz platform designed
+          to improve your understanding of economics and financial literacy.
+        </p>
+
+        <h2 class="text-3xl font-bold text-cyan-300 mb-2">Why Play?</h2>
+        <ul class="list-disc list-inside space-y-1 text-gray-300 text-lg mb-6">
+          <li>
+            ✅ Learn key concepts of budgeting, savings, inflation, and more
+          </li>
+          <li>✅ Boost your financial decision-making skills</li>
+          <li>
+            ✅ Track your progress and see where you stand in the leaderboard
+          </li>
+          <li>✅ Earn bragging rights by topping the leaderboard!</li>
+        </ul>
+
+        <h2 class="text-3xl font-bold text-cyan-300 mb-2">Instructions</h2>
+        <ul class="list-disc list-inside space-y-1 text-gray-300 text-lg mb-6">
+          <li>◇ Sign in with your Google account.</li>
+          <li>◇ You will be asked 25 multiple choice questions.</li>
+          <li>◇ Each question has a hint. Use it wisely!</li>
+          <li>◇ Your final score will appear at the end.</li>
+          <li>◇ Your score will be added to the leaderboard automatically.</li>
+        </ul>
+        <div class="text-center mt-8">
+          <button
+            id="start-quiz-btn"
+            class="hidden bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-xl transition"
+            onclick="location.href='quiz.html'"
+          >
+            🚀 Start Quiz
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const auth = firebase.auth();
+      const provider = new firebase.auth.GoogleAuthProvider();
+
+      function signInWithGoogle() {
+        auth
+          .signInWithPopup(provider)
+          .then((result) => {
+            const user = result.user;
+            localStorage.setItem(
+              "username",
+              user.displayName || user.email.split("@")[0]
+            );
+            localStorage.setItem("userId", user.uid);
+            document.getElementById("login-overlay").style.display = "none";
+            document
+              .getElementById("start-quiz-btn")
+              .classList.remove("hidden");
+          })
+          .catch((error) => {
+            alert("Google Sign-In Failed: " + error.message);
+          });
+      }
+
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          localStorage.setItem(
+            "username",
+            user.displayName || user.email.split("@")[0]
+          );
+          localStorage.setItem("userId", user.uid);
+          document.getElementById("login-overlay").style.display = "none";
+          document.getElementById("start-quiz-btn").classList.remove("hidden");
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EconoQuest - Results</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7VFMDvrd-EU01aHGgCEOawsyLLZTOOnE",
+      authDomain: "econoquest-9ee60.firebaseapp.com",
+      databaseURL: "https://econoquest-9ee60-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "econoquest-9ee60",
+      storageBucket: "econoquest-9ee60.appspot.com",
+      messagingSenderId: "430501437674",
+      appId: "1:430501437674:web:f43a957c0117df3d1af793"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body class="bg-gradient-to-r from-black via-blue-700 to-cyan-500 text-white font-sans min-h-screen">
+  <div class="max-w-4xl mx-auto py-10 px-4 text-center">
+    <h1 class="text-4xl font-bold mb-6">🎉 Quiz Completed!</h1>
+    <p id="final-score" class="text-2xl mb-6">Calculating your results...</p>
+
+    <div id="final-leaderboard" class="bg-white/10 p-6 rounded-lg shadow-lg mb-6 text-left">
+      <h2 class="text-2xl font-bold mb-4 text-white">🏆 Leaderboard</h2>
+      <ol class="list-decimal pl-6 text-xl text-white" id="leaderboard-list"></ol>
+    </div>
+
+    <button onclick="generateCertificate()" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-lg transition-all">Download Certificate</button>
+
+    <canvas id="certificate" class="hidden mt-8 mx-auto border-4 border-white shadow-xl rounded-lg"></canvas>
+
+    <!-- ✅ Logout Button -->
+    <div class="mt-8">
+      <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-all">
+        🔒 Logout
+      </button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    function logout() {
+      firebase.auth().signOut().then(() => {
+        localStorage.clear();
+        window.location.href = "index.html";
+      }).catch((error) => {
+        alert("Error logging out: " + error.message);
+      });
+    }
+  </script>
+</body>
+</html>
